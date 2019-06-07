@@ -2,13 +2,38 @@
 <html>
 
 <head>
-    <meta charset="utf-8" />
+    <meta charset='utf-8' />
     <title>Surprise me!</title>
 </head>
 
 <body>
     <h1>That's it!</h1>
-    <img src="/ui/spectate" />
+    <img id='spectator-window' src='/ui/spectate' style="max-width: 800px; border: 1px solid black;" />
+    Score: <span id='score'></span>
+    <button id="start-button">Start</button>
 </body>
+<script src='/js/jquery-3.4.1.min.js' type='text/javascript'></script>
+<script type='text/javascript'>
+    $(function () {
+        var spectateInterval;
+        var scoreInterval;
+        function refreshSpectatorView() {
+            $('#spectator-window').attr('src', '/ui/spectate?' + $.now());
+        }
+        $('#start-button').click(function () {
+            $.post('/ui/start', {}, function (data, status) {
+                // spectateInterval = setInterval(function () {
+                //     $('#spectator-window').attr('src', '/ui/spectate?' + new Date().getTime());
+                // }, 500);
+                setTimeout(refreshSpectatorView, 1000);
+                // scoreInterval = setInterval(function () {
+                //     $.get('/ui/score', function (data) {
+                //         $('#score').text(data);
+                //     });
+                // }, 500);
+            });
+        });
+    });
+</script>
 
 </html>
