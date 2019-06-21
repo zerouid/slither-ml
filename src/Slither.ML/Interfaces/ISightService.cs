@@ -6,7 +6,7 @@ namespace Slither.ML.Interfaces
 {
     public interface ISightService
     {
-        Mat GrabScreen();
+        void GrabScreen();
         byte[] GetScreenCaptureImage(string ext);
         IEnumerable<string> OCR(IDictionary<string, Mat> symbolMap);
         IEnumerable<string> OCR(Mat image, IDictionary<string, Mat> symbolMap);

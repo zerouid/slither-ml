@@ -55,6 +55,14 @@ namespace Slither.ML.Controllers
             return Ok();
         }
 
+        [HttpPost("test")]
+        public IActionResult Test(CancellationToken cancellationToken)
+        {
+            _game.Prepare();
+            _game.GrabScreen();
+            return Ok();
+        }
+
         [HttpGet("score")]
         public IActionResult GetScore(CancellationToken cancellationToken)
         {

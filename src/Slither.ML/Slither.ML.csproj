@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Cognitio.ConvNetSharp.Flow" Version="0.4.12-alpha" />
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.2.0" />
     <PackageReference Include="OpenCvSharp4" Version="4.1.0.20190416" />
   </ItemGroup>

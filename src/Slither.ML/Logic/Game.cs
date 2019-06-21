@@ -11,6 +11,7 @@ namespace Slither.ML.Logic
     public class Game
     {
         private static readonly Point scoreAreaAdjustment = new Point(195, -3);
+        private static readonly Rect playAreaRectangle = new Rect(100, 50, 500, 100);
         private static readonly Size scoreAreaSize = new Size(115, 30);
         private readonly object _lock = new object();
         private readonly ISightService _sightService;
@@ -60,9 +61,45 @@ namespace Slither.ML.Logic
             Mouse.MouseClick();
             _logger.LogDebug($"Clicked on Dino.");
         }
+
+        public void PressUp()
+        {
+            Keyboard.KeyTap(Keys.Up);
+        }
+        public void PressDown()
+        {
+            Keyboard.KeyTap(Keys.Down);
+        }
+
         public void Restart()
         {
             Keyboard.KeyTap(Keys.Space);
+        }
+
+        public double[] GrabScreen(Size resultSize = default(Size))
+        {
+            _sightService.GrabScreen();
+            using (var playArea = _sightService.LookAt(playAreaRectangle)) //Crop Region of Interest(ROI)
+            //using (var playArea = playAreaRaw.CvtColor(ColorConversionCodes.BGR2GRAY)) //RGB to Grey Scale
+            {
+                using (var playAreaOfDoubles = new MatOfDouble(playArea))
+                {
+                    double[] result;
+                    if (resultSize != default(Size))
+                    {
+                        using (var playAreaResized = playArea.Resize(resultSize))
+                        {
+                            result = playAreaResized.GetArray(0, 0);
+                        }
+                    }
+                    else
+                    {
+                        result = playAreaOfDoubles.GetArray(0, 0);
+                    }
+                    Cv2.ImWrite($"{Guid.NewGuid()}.png", playArea);
+                    return result;
+                }
+            }
         }
 
         private Rect getScoreRectangle()

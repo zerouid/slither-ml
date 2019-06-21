@@ -37,7 +37,7 @@ namespace Slither.ML.Logic
             return image;
         }
 
-        public Mat GrabScreen()
+        public void GrabScreen()
         {
             using (var bmp = Screen.CaptureScreen(capture_x, capture_y, capture_width, capture_height))
             {
@@ -49,7 +49,6 @@ namespace Slither.ML.Logic
                 {
                     var graymat = mat.CvtColor(ColorConversionCodes.BGR2GRAY);
                     Interlocked.Exchange(ref currentFrame, graymat)?.Dispose();
-                    return currentFrame;
                 }
             }
         }
