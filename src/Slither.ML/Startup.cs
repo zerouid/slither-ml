@@ -21,7 +21,7 @@ namespace Slither.ML
             services.AddControllers();
 
             services.AddSingleton<ISightService, SightService>();
-            services.AddSingleton<Game, Game>();
+            services.AddSingleton<IGameController, DinoGameController>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

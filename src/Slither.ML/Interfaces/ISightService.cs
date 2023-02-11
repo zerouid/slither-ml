@@ -14,6 +14,7 @@ namespace Slither.ML.Interfaces
         void ResetFocus();
         Mat LookAt(Rect rect);
         Point FocusOrigin { get; }
+        bool InvertImage { get; set; }
         bool IsVisible(Mat template, double threshold = 0.8);
         Point? FindScreenPosition(Mat template, double threshold = 0.8);
         Point? Find(Mat template, double threshold = 0.8);

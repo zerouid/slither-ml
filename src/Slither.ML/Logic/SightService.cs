@@ -31,6 +31,8 @@ namespace Slither.ML.Logic
         private double imageToScreenRatio = 0.0;
         public Point FocusOrigin { get; private set; } = new Point(0, 0);
 
+        public bool InvertImage { get; set; } = false;
+
         public byte[] GetScreenCaptureImage(string ext)
         {
             Cv2.ImEncode(ext, currentFrame, out byte[] image);
@@ -48,6 +50,10 @@ namespace Slither.ML.Logic
                 using (var mat = bmp.ToMat())
                 {
                     var graymat = mat.CvtColor(ColorConversionCodes.BGR2GRAY);
+                    if (InvertImage)
+                    {
+                        Cv2.BitwiseNot(graymat, graymat);
+                    }
                     Interlocked.Exchange(ref currentFrame, graymat)?.Dispose();
                 }
             }
@@ -79,7 +85,7 @@ namespace Slither.ML.Logic
                 match.MinMaxLoc(out double minval, out double maxval, out Point minloc, out Point maxloc);
                 _logger.LogDebug($"MinMaxLoc: minval = {minval}, maxval = {maxval}, minloc = {minloc}, maxloc={maxloc}");
                 var visible = maxval > threshold;
-                _logger.LogInformation($"Template is {(visible ? "" : "NOT")}visible.");
+                _logger.LogInformation($"Template is {(visible ? "" : "NOT")} visible.");
                 return visible;
             }
         }

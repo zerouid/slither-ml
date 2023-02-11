@@ -11,7 +11,8 @@
     <img id='spectator-window' src='/ui/spectate' style="max-width: 800px; border: 1px solid black;" />
     Score: <span id='score'></span>
     <hr>
-    <button id="start-button">Start</button>
+    <button id="start-dino-button">Start Dino</button>
+    Dark Mode? <input id="inverted" type="checkbox"><input>
     <button id="test-button">Test</button>
 </body>
 <script src='/js/jquery-3.4.1.min.js' type='text/javascript'></script>
@@ -25,8 +26,12 @@
         $('#test-button').click(function () {
             $.post('/ui/test', {});
         });
-        $('#start-button').click(function () {
-            $.post('/ui/start', {}, function (data, status) {
+        $('#start-dino-button').click(function () {
+            var params = {};
+            if ($('#inverted').prop('checked')) {
+                params.inverted = true;
+            }
+            $.post('/ui/start', params, function (data, status) {
                 // spectateInterval = setInterval(function () {
                 //     $('#spectator-window').attr('src', '/ui/spectate?' + new Date().getTime());
                 // }, 500);

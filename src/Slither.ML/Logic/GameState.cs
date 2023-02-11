@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using OpenCvSharp;
+using Slither.ML.Interfaces;
 
 namespace Slither.ML.Logic
 {
@@ -21,12 +22,12 @@ namespace Slither.ML.Logic
         };
 
         private readonly DinoAgent _agent;
-        private readonly Game _game;
+        private readonly IGameController _game;
         public List<double> Loss => _logs[loss_file_path];
         public List<double> Scores => _logs[scores_file_path];
         public List<double> Actions => _logs[actions_file_path];
         public List<double> QValues => _logs[q_value_file_path];
-        public GameState(DinoAgent agent, Game game)
+        public GameState(DinoAgent agent, IGameController game)
         {
             _agent = agent ?? throw new ArgumentNullException(nameof(agent));
             _game = game ?? throw new ArgumentNullException(nameof(game));

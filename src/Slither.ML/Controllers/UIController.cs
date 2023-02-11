@@ -15,8 +15,8 @@ namespace Slither.ML.Controllers
     {
         private readonly ISightService _sightService;
         private readonly ILogger _logger;
-        private readonly Game _game;
-        public UIController(ISightService sightService, ILogger<UIController> logger, Game game)
+        private readonly IGameController _game;
+        public UIController(ISightService sightService, ILogger<UIController> logger, IGameController game)
         {
             _sightService = sightService ?? throw new ArgumentNullException(nameof(sightService));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -24,7 +24,7 @@ namespace Slither.ML.Controllers
         }
 
         [HttpGet("spectate")]
-        public IActionResult GetVideoStream(CancellationToken cancellationToken)
+        public IActionResult GetVideoStream(CancellationToken cancellationToken = default)
         {
             // await _sightService.GrabScreen();
             // var loc = await _sightService.Find(GameUtils.DinoSprite["TREX"]);
@@ -48,15 +48,19 @@ namespace Slither.ML.Controllers
         }
 
         [HttpPost("start")]
-        public IActionResult StartPlaying(CancellationToken cancellationToken)
+        public IActionResult StartPlaying([FromForm] bool inverted = false, CancellationToken cancellationToken = default)
         {
+            if (inverted)
+            {
+                _sightService.InvertImage = true;
+            }
             _game.Prepare();
             _game.Restart();
             return Ok();
         }
 
         [HttpPost("test")]
-        public IActionResult Test(CancellationToken cancellationToken)
+        public IActionResult Test(CancellationToken cancellationToken = default)
         {
             _game.Prepare();
             _game.GrabScreen();
@@ -64,8 +68,9 @@ namespace Slither.ML.Controllers
         }
 
         [HttpGet("score")]
-        public IActionResult GetScore(CancellationToken cancellationToken)
+        public IActionResult GetScore(CancellationToken cancellationToken = default)
         {
+            _game.GrabScreen();
             return Ok(_game.Score);
         }
     }

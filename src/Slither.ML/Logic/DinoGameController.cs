@@ -8,7 +8,7 @@ using Slither.ML.Interfaces;
 
 namespace Slither.ML.Logic
 {
-    public class Game
+    public class DinoGameController : IGameController
     {
         private static readonly Point scoreAreaAdjustment = new Point(195, -3);
         private static readonly Rect playAreaRectangle = new Rect(100, 50, 500, 100);
@@ -17,7 +17,7 @@ namespace Slither.ML.Logic
         private readonly ISightService _sightService;
         private readonly ILogger _logger;
         public Rect scoreArea = Rect.Empty;
-        public Game(ISightService sightService, ILogger<Game> logger)
+        public DinoGameController(ISightService sightService, ILogger<DinoGameController> logger)
         {
             _sightService = sightService ?? throw new ArgumentNullException(nameof(sightService));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));

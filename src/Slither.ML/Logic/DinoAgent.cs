@@ -1,11 +1,12 @@
 using System;
+using Slither.ML.Interfaces;
 
 namespace Slither.ML.Logic
 {
     public class DinoAgent
     {
-        private readonly Game _game;
-        public DinoAgent(Game game)
+        private readonly IGameController _game;
+        public DinoAgent(IGameController game)
         {
             _game = game ?? throw new ArgumentNullException(nameof(game));
         }
